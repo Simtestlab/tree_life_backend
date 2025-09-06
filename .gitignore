@@ -1,0 +1,16 @@
+# Environment
+.env
+
+# Python
+__pycache__/
+*.pyc
+
+# pytest
+.pytest_cache/
+
+# Local uploads and runtime artifacts
+uploads/
+downloaded_pic.png
+
+# VS Code
+.vscode/

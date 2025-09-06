@@ -35,7 +35,7 @@ async def insert_person(
             """
             INSERT INTO persons (first_name, last_name, email, phone)
             VALUES ($1, $2, $3, $4)
-            RETURNING id, first_name, last_name, email, phone, ordered_tree, created_at, updated_at
+            RETURNING id, first_name, last_name, email, phone, ordered_tree, picture_filename, created_at, updated_at
             """,
             first_name,
             last_name,
@@ -50,7 +50,7 @@ async def get_person_by_id(pool: asyncpg.pool.Pool, person_id: int) -> Optional[
     async with pool.acquire() as conn:
         row = await conn.fetchrow(
             """
-            SELECT id, first_name, last_name, email, phone, ordered_tree, created_at, updated_at
+            SELECT id, first_name, last_name, email, phone, ordered_tree, picture_filename, created_at, updated_at
             FROM persons
             WHERE id = $1
             """,
