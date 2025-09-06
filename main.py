@@ -11,7 +11,21 @@ from routes.orders import router as orders_router
 from models.persons import PersonOut
 
 
+
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI()
+
+# Enable CORS for local development so Flutter web can call the API.
+# For production, replace allow_origins with a list of trusted origins.
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # dev: allow all origins; production: set explicit origins
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # include routers
 app.include_router(persons_router)
@@ -21,8 +35,9 @@ app.include_router(orders_router)
 
 @app.on_event("startup")
 async def startup():
-    # Read DATABASE_URL from env, fallback to your local postgres
-    database_url = os.getenv("DATABASE_URL", "postgres://hari@localhost:5432/tree_life")
+    # Read DATABASE_URL from env; fallback matches docker-compose service config
+    # Use postgresql scheme and default container credentials
+    database_url = os.getenv("DATABASE_URL", "postgresql://user:password@db:5432/tree_life")
     await db.connect(database_url)
 
 
@@ -59,6 +74,5 @@ async def get_users():
         return [dict(r) for r in rows]
 
 
-# include routers
-app.include_router(persons_router)
+# (routers already included above)
 

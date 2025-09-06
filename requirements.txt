@@ -2,3 +2,8 @@ fastapi==0.100.0
 uvicorn[standard]==0.23.2
 asyncpg==0.27.0
 pydantic==1.10.12
+email-validator==1.3.1
+python-multipart==0.0.6
+# Allow any boto3 1.28.x release; pin loosely to avoid exact-miss issues
+boto3>=1.28.0,<2.0
+python-dotenv==1.0.0
